@@ -1,0 +1,1 @@
+{"version":3,"file":"AdressPanel.js","sources":["../../../../../../uniComponent:/QzovUHJvZ3JhbXMvaGVpbWEtc2hvcC9zcmMvcGFnZXMvZ29vZHMvY29tcG9uZW50cy9BZHJlc3NQYW5lbC52dWU"],"sourcesContent":["import Component from 'C:/Programs/heima-shop/src/pages/goods/components/AdressPanel.vue'\nwx.createComponent(Component)"],"names":[],"mappings":";;;;;;;;;;;;;;AACA,GAAG,gBAAgB,SAAS;"}
