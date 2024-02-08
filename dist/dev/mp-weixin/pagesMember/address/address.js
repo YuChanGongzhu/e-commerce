@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_address = require("../../services/address.js");
+const stores_modules_address = require("../../stores/modules/address.js");
 require("../../utils/http.js");
 require("../../stores/index.js");
 require("../../stores/modules/member.js");
@@ -37,6 +38,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }
       });
     };
+    const onChangeAddress = (item) => {
+      const addressStore = stores_modules_address.useAddressStore();
+      addressStore.changeSelectedAddress(item);
+      common_vendor.index.navigateBack();
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(addressList.value, (item, k0, i0) => {
@@ -47,10 +53,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           }, item.isDefault === 1 ? {} : {}, {
             d: common_vendor.t(item.fullLocation),
             e: common_vendor.t(item.address),
-            f: `/pagesMember/address-form/address-form?id=${item.id}`,
-            g: common_vendor.o(($event) => onDelete(item.id), item.id),
-            h: item.id,
-            i: "053137e7-1-" + i0 + ",053137e7-0"
+            f: common_vendor.o(() => {
+            }, item.id),
+            g: `/pagesMember/address-form/address-form?id=${item.id}`,
+            h: common_vendor.o(($event) => onChangeAddress(item), item.id),
+            i: common_vendor.o(($event) => onDelete(item.id), item.id),
+            j: item.id,
+            k: "053137e7-1-" + i0 + ",053137e7-0"
           });
         })
       };

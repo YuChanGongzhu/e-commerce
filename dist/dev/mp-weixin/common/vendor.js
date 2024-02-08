@@ -7620,6 +7620,7 @@ const onShow = /* @__PURE__ */ createHook(ON_SHOW);
 const onHide = /* @__PURE__ */ createHook(ON_HIDE);
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
 const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
+const onReady = /* @__PURE__ */ createHook(ON_READY);
 let mpMixins = {};
 mpMixins = {
   data() {
@@ -8383,6 +8384,7 @@ exports.onHide = onHide;
 exports.onLaunch = onLaunch;
 exports.onLoad = onLoad;
 exports.onMounted = onMounted;
+exports.onReady = onReady;
 exports.onShow = onShow;
 exports.otherMixins = otherMixins;
 exports.p = p;

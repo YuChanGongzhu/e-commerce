@@ -92,9 +92,10 @@ const gotoPay = () => {
             icon: 'none',
         })
     }
-    uni.showToast({
-        title: '等待下一步操作',
-    })
+    // uni.showToast({
+    //     title: '等待下一步操作',
+    // })
+    uni.navigateTo({ url: '/pagesOrder/create/create' })
 }
 </script>
 

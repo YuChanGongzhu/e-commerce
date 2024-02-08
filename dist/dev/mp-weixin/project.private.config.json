@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "创建订单",
+          "pathName": "pagesOrder/create/create",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "",
           "pathName": "pagesMember/address/address",
           "query": "",

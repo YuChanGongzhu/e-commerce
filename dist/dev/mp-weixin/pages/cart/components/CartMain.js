@@ -81,9 +81,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           icon: "none"
         });
       }
-      common_vendor.index.showToast({
-        title: "等待下一步操作"
-      });
+      common_vendor.index.navigateTo({ url: "/pagesOrder/create/create" });
     };
     return (_ctx, _cache) => {
       var _a, _b;
