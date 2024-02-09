@@ -1,15 +1,23 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const composables_index = require("../../composables/index.js");
+const services_order = require("../../services/order.js");
+const services_contants = require("../../services/contants.js");
+const services_pay = require("../../services/pay.js");
+require("../../utils/http.js");
+require("../../stores/index.js");
+require("../../stores/modules/member.js");
 if (!Array) {
+  const _easycom_uni_countdown2 = common_vendor.resolveComponent("uni-countdown");
   const _component_XtxGuess = common_vendor.resolveComponent("XtxGuess");
   const _component_PageSkeleton = common_vendor.resolveComponent("PageSkeleton");
   const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
-  (_component_XtxGuess + _component_PageSkeleton + _easycom_uni_popup2)();
+  (_easycom_uni_countdown2 + _component_XtxGuess + _component_PageSkeleton + _easycom_uni_popup2)();
 }
+const _easycom_uni_countdown = () => "../../node-modules/@dcloudio/uni-ui/lib/uni-countdown/uni-countdown.js";
 const _easycom_uni_popup = () => "../../node-modules/@dcloudio/uni-ui/lib/uni-popup/uni-popup.js";
 if (!Math) {
-  _easycom_uni_popup();
+  (_easycom_uni_countdown + _easycom_uni_popup)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "detail",
@@ -60,45 +68,156 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         endScrollOffset: 50
       });
     });
+    const order = common_vendor.ref();
+    const getMemberOrderByIdData = async () => {
+      const res = await services_order.getMemberOrderByIdAPI(query.id);
+      order.value = res.result;
+      if ([services_contants.OrderState.DaiShouHuo, services_contants.OrderState.DaiPingJia, services_contants.OrderState.YiWanCheng].includes(order.value.orderState)) {
+        getMemberOrderLogisticsByIdData();
+      }
+    };
+    common_vendor.onLoad(() => {
+      getMemberOrderByIdData();
+    });
+    const logisticList = common_vendor.ref();
+    const getMemberOrderLogisticsByIdData = async () => {
+      const res = await services_order.getMemberOrderLogisticsByIdAPI(query.id);
+      logisticList.value = res.result.list;
+    };
+    const onTimeup = () => {
+      order.value.orderState = services_contants.OrderState.YiQuXiao;
+    };
+    const onOrderPay = async () => {
+      {
+        await services_pay.getPayMockAPI({ orderId: query.id });
+      }
+      common_vendor.index.redirectTo({ url: `/pagesOrder/payment/payment?id=${query.id}` });
+    };
+    const isDev = true;
+    const onOrderSend = async () => {
+      {
+        await services_order.getMemberOrderConsignmentByIdAPI(query.id);
+        common_vendor.index.showToast({
+          title: "模拟发货完成",
+          icon: "success",
+          mask: true
+        });
+        order.value.orderState = services_contants.OrderState.DaiShouHuo;
+        getMemberOrderByIdData();
+      }
+    };
+    const onOrderComfirm = () => {
+      common_vendor.index.showModal({
+        title: "为保障您的权益，请在收到商品后再点击确认",
+        success: async (success) => {
+          if (success.confirm) {
+            const res = await services_order.putMemberOrderReceiptByIdAPI(query.id);
+            order.value = res.result;
+          }
+        }
+      });
+    };
+    const onOrderDelete = () => {
+      common_vendor.index.showModal({
+        title: "是否删除订单",
+        success: async (success) => {
+          if (success.confirm) {
+            await services_order.deleteMemberOrderAPI({ ids: [query.id] });
+            debugger;
+            common_vendor.index.redirectTo({ url: "/pagesOrders/list/list" });
+          }
+        }
+      });
+    };
     return (_ctx, _cache) => {
-      var _a, _b, _c;
+      var _a, _b, _c, _d, _e;
       return common_vendor.e({
         a: common_vendor.unref(pages).length > 1
       }, common_vendor.unref(pages).length > 1 ? {} : {}, {
-        b: ((_a = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _a.top) + "px"
-      }, common_vendor.e({}, {
-        d: common_vendor.unref(safeAreaInsets).top + 20 + "px",
-        e: common_vendor.f(1, (item, k0, i0) => {
+        b: ((_a = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _a.top) + "px",
+        c: order.value
+      }, order.value ? common_vendor.e({
+        d: ((_b = order.value) == null ? void 0 : _b.orderState) === common_vendor.unref(services_contants.OrderState).DaiFuKuan
+      }, ((_c = order.value) == null ? void 0 : _c.orderState) === common_vendor.unref(services_contants.OrderState).DaiFuKuan ? {
+        e: common_vendor.t(order.value.payMoney),
+        f: common_vendor.o(onTimeup),
+        g: common_vendor.p({
+          second: order.value.countdown,
+          color: "#fff",
+          ["splitor-color"]: "#fff",
+          ["show-day"]: false,
+          ["show-colon"]: false
+        }),
+        h: common_vendor.o(onOrderPay)
+      } : common_vendor.e({
+        i: common_vendor.t(common_vendor.unref(services_contants.orderStateList)[order.value.orderState].text),
+        j: `/pagesOrder/create/create?orderId=${query.id}`,
+        k: common_vendor.unref(isDev) && order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiFaHuo
+      }, common_vendor.unref(isDev) && order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiFaHuo ? {
+        l: common_vendor.o(onOrderSend)
+      } : {}, {
+        m: order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiShouHuo
+      }, order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiShouHuo ? {
+        n: common_vendor.o(onOrderComfirm)
+      } : {}), {
+        o: common_vendor.unref(safeAreaInsets).top + 20 + "px",
+        p: common_vendor.f(logisticList.value, (item, k0, i0) => {
           return {
-            a: item
+            a: common_vendor.t(item.text),
+            b: common_vendor.t(item.time),
+            c: item.id
           };
         }),
-        f: common_vendor.f(2, (item, k0, i0) => {
+        q: common_vendor.t(order.value.receiverContact),
+        r: common_vendor.t(order.value.receiverMobile),
+        s: common_vendor.t(order.value.receiverAddress),
+        t: common_vendor.f(order.value.skus, (item, k0, i0) => {
           return {
-            a: item,
-            b: `/pages/goods/goods?id=${item}`
+            a: item.image,
+            b: common_vendor.t(item.name),
+            c: common_vendor.t(item.attrsText),
+            d: common_vendor.t(item.curPrice),
+            e: common_vendor.t(item.quantity),
+            f: item.spuId,
+            g: `/pages/goods/goods?id=${item.spuId}`
           };
         })
       }, {}, {
-        g: common_vendor.t(query.id),
-        h: common_vendor.o(($event) => onCopy(query.id)),
-        i: common_vendor.sr(guessRef, "4555165b-0", {
+        v: common_vendor.t(order.value.totalMoney),
+        w: common_vendor.t(order.value.postFee),
+        x: common_vendor.t(order.value.payMoney),
+        y: common_vendor.t(query.id),
+        z: common_vendor.o(($event) => onCopy(query.id)),
+        A: common_vendor.t(order.value.createTime),
+        B: common_vendor.sr(guessRef, "4555165b-1", {
           "k": "guessRef"
         }),
-        j: ((_b = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _b.bottom) + "px"
-      }, {
-        k: common_vendor.o(($event) => {
+        C: ((_d = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _d.bottom) + "px",
+        D: order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiFuKuan
+      }, order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiFuKuan ? {
+        E: common_vendor.o(($event) => {
           var _a2, _b2;
           return (_b2 = (_a2 = popup.value) == null ? void 0 : _a2.open) == null ? void 0 : _b2.call(_a2);
         })
-      }, {
-        m: ((_c = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _c.bottom) + "px"
-      }), {
-        n: common_vendor.o(
+      } : common_vendor.e({
+        F: `/pagesOrder/create/create?orderId=${query.id}`,
+        G: order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiShouHuo
+      }, order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiShouHuo ? {
+        H: common_vendor.o(onOrderComfirm)
+      } : {}, {
+        I: order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiPingJia
+      }, order.value.orderState === common_vendor.unref(services_contants.OrderState).DaiPingJia ? {} : {}, {
+        J: order.value.orderState >= common_vendor.unref(services_contants.OrderState).DaiPingJia
+      }, order.value.orderState >= common_vendor.unref(services_contants.OrderState).DaiPingJia ? {
+        K: common_vendor.o(onOrderDelete)
+      } : {}), {
+        L: ((_e = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _e.bottom) + "px"
+      }) : {}, {
+        M: common_vendor.o(
           //@ts-ignore
           (...args) => common_vendor.unref(onScrolltolower) && common_vendor.unref(onScrolltolower)(...args)
         ),
-        o: common_vendor.f(reasonList.value, (item, k0, i0) => {
+        N: common_vendor.f(reasonList.value, (item, k0, i0) => {
           return {
             a: common_vendor.t(item),
             b: item === reason.value ? 1 : "",
@@ -106,14 +225,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             d: common_vendor.o(($event) => reason.value = item, item)
           };
         }),
-        p: common_vendor.o(($event) => {
+        O: common_vendor.o(($event) => {
           var _a2, _b2;
           return (_b2 = (_a2 = popup.value) == null ? void 0 : _a2.close) == null ? void 0 : _b2.call(_a2);
         }),
-        q: common_vendor.sr(popup, "4555165b-2", {
+        P: common_vendor.sr(popup, "4555165b-3", {
           "k": "popup"
         }),
-        r: common_vendor.p({
+        Q: common_vendor.p({
           type: "bottom",
           ["background-color"]: "#fff"
         })

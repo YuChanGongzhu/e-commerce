@@ -1,0 +1,1 @@
+{"version":3,"file":"list.js","sources":["../../../../../uniPage:/cGFnZXNPcmRlclxsaXN0XGxpc3QudnVl"],"sourcesContent":["import MiniProgramPage from 'C:/Programs/heima-shop/src/pagesOrder/list/list.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;AACA,GAAG,WAAW,eAAe;"}

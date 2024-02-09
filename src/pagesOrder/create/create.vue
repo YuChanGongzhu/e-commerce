@@ -89,7 +89,7 @@ const onOrderSubmit = async () => {
     <view class="goods">
       <navigator v-for="item in orderPre?.goods" :key="item.skuId" :url="`/pages/goods/goods?id=1`" class="item"
         hover-class="none">
-        <image class="picture" src="https://yanxuan-item.nosdn.127.net/c07edde1047fa1bd0b795bed136c2bb2.jpg" />
+        <image class="picture" :src="item.picture" />
         <view class="meta">
           <view class="name ellipsis"> {{ item.name }} </view>
           <view class="attrs">{{ item.attrsText }}</view>

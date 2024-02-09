@@ -74,12 +74,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       } : {}, {
         f: common_vendor.f((_c = orderPre.value) == null ? void 0 : _c.goods, (item, k0, i0) => {
           return {
-            a: common_vendor.t(item.name),
-            b: common_vendor.t(item.attrsText),
-            c: common_vendor.t(item.payPrice),
-            d: common_vendor.t(item.price),
-            e: common_vendor.t(item.count),
-            f: item.skuId
+            a: item.picture,
+            b: common_vendor.t(item.name),
+            c: common_vendor.t(item.attrsText),
+            d: common_vendor.t(item.payPrice),
+            e: common_vendor.t(item.price),
+            f: common_vendor.t(item.count),
+            g: item.skuId
           };
         }),
         g: `/pages/goods/goods?id=1`,
