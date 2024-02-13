@@ -51,7 +51,15 @@ const deleteMemberOrderAPI = (data) => {
     data
   });
 };
+const getMemberOrderAPI = (data) => {
+  return utils_http.http({
+    method: "GET",
+    url: `/member/order`,
+    data
+  });
+};
 exports.deleteMemberOrderAPI = deleteMemberOrderAPI;
+exports.getMemberOrderAPI = getMemberOrderAPI;
 exports.getMemberOrderByIdAPI = getMemberOrderByIdAPI;
 exports.getMemberOrderConsignmentByIdAPI = getMemberOrderConsignmentByIdAPI;
 exports.getMemberOrderLogisticsByIdAPI = getMemberOrderLogisticsByIdAPI;
