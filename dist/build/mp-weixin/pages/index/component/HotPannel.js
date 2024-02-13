@@ -1,1 +1,0 @@
-"use strict";const t=require("../../../common/vendor.js"),e=t.defineComponent({__name:"HotPannel",props:{list:null},setup:e=>(n,o)=>({a:t.f(e.list,((e,n,o)=>({a:t.t(e.title),b:t.t(e.alt),c:t.f(e.pictures,((t,e,n)=>({a:t,b:t}))),d:`/pages/hot/hot?type=${e.type}`,e:e.id})))})});wx.createComponent(e);

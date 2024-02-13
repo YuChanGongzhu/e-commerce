@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js"),o=e.defineComponent({__name:"AdressPanel",emits:["close"],setup:(o,{emit:n})=>(o,s)=>e.e({a:e.o((e=>n("close")))},{})});wx.createComponent(o);
