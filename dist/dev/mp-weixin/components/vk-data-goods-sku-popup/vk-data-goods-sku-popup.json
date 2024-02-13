@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "vk-data-input-number-box": "../vk-data-input-number-box/vk-data-input-number-box"
-  }
-}
