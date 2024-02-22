@@ -70,8 +70,11 @@ const { guessRef, onScrolltolower } = useGuessList()
           :url="`/pagesOrder/list/list?type=${item.type}`" class="navigator" hover-class="none">
           {{ item.text }}
         </navigator>
-        <!-- 客服 -->
+        <!-- #ifdef MP-WEIXIN -->
         <button class="contact icon-handset" open-type="contact">售后</button>
+        <!-- #endif -->
+        <!-- 客服 -->
+
       </view>
     </view>
     <!-- 猜你喜欢 -->

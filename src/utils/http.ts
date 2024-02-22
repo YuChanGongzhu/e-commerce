@@ -1,5 +1,5 @@
 import { useMemberStore } from "@/stores"
-import { resolve } from "path"
+// import { resolve } from "path"
 
 const baseUrl = 'https://pcapi-xiaotuxian-front-devtest.itheima.net/'
 

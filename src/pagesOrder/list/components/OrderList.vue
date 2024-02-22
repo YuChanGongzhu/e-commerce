@@ -32,10 +32,13 @@ const onOrderPay = async (id: string) => {
         await getPayMockAPI({ orderId: id })
     }
     else {
+        // #ifdef MP-WEIXIN
         //正式微信支付
         const res = await getPayWxPayMiniPayAPI({ orderId: id })
         // console.log('支付', res)
         wx.requestPayment(res.result)
+        // #endif
+
     }
     uni.showToast({ title: '支付成功' })
     //更新前端状态---体验有点问题？？？应该跳到detail

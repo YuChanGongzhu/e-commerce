@@ -1,0 +1,1 @@
+"use strict";const t=require("../utils/http.js");exports.postLoginWeixinAPI=i=>t.http({method:"GET",url:"/login/wxMin",data:i}),exports.postLoginWeixinSimpleAPI=i=>t.http({method:"POST",url:"/login/wxMin/simple",data:{phoneNumber:i}});
