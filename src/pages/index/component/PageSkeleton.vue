@@ -110,7 +110,14 @@
     </view>
 </template>
 
-<style>
+<style lang="scss">
+/* #ifdef H5 || APP-PLUS */
+// h5端默认开启scoped隔离样式
+@import '@/components/styles/XtxSwiper.scss';
+@import './styles/CategoryPanel.scss';
+@import './styles//HotPannel.scss';
+/* #endif */
+
 .sk-transparent {
     color: transparent !important;
 }
@@ -267,4 +274,5 @@
     height: 100%;
     overflow: hidden;
     background-color: transparent;
-}</style>
+}
+</style>
