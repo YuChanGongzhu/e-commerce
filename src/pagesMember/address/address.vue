@@ -52,7 +52,7 @@ const onChangeAddress = (item: AddressItem) => {
                 <text v-if="item.isDefault === 1" class="badge">默认</text>
               </view>
               <view class="locate">{{ item.fullLocation }}{{ item.address }}</view>
-              <navigator @tap.stop class="edit" hover-class="none"
+              <navigator @tap.stop @tap.prevent class="edit" hover-class="none"
                 :url="`/pagesMember/address-form/address-form?id=${item.id}`">
                 修改
               </navigator>

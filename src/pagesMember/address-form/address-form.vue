@@ -22,12 +22,20 @@ const query = defineProps<{
 }>()
 uni.setNavigationBarTitle({ title: query.id === '1' ? '修改地址' : '新建地址' })
 
-
+// #ifdef MP-WEIXIN
 const onRegionChange: UniHelper.RegionPickerOnChange = (ev) => {
   form.value.fullLocation = ev.detail.value.join(' ')
   const [provinceCode, cityCode, countyCode] = ev.detail.code!
   Object.assign(form.value, { provinceCode, cityCode, countyCode })
 }
+// #endif
+// #ifdef APP-PLUS || H5
+const onCityChange:UniHelper.UniDataPickerOnChange=(ev)=>{
+  const [provinceCode, cityCode, countyCode]=ev.detail.value.map(v=>v.value)
+  Object.assign(form.value, { provinceCode, cityCode, countyCode })
+}
+// #endif
+
 
 const onSwitchChange: UniHelper.SwitchOnChange = (ev) => [
   form.value.isDefault = ev.detail.value ? 1 : 0
@@ -101,6 +109,8 @@ const getMemberAddressIdData = async () => {
 onLoad(() => {
   getMemberAddressIdData()
 })
+
+
 </script>
 
 <template>
@@ -117,10 +127,18 @@ onLoad(() => {
       </uni-forms-item>
       <uni-forms-item class="form-item">
         <text class="label" name="fullLocation">所在地区</text>
+        <!-- #ifdef MP-WEIXIN -->
         <picker @change="onRegionChange" class="picker" mode="region" :value="form.fullLocation.split(' ')">
           <view v-if="form.fullLocation">{{ form.fullLocation }}</view>
           <view v-else class="placeholder">请选择省/市/区(县)</view>
         </picker>
+        <!-- #endif -->
+        <!-- #ifdef APP-PLUS || H5 -->
+        <uni-data-picker placeholder="请选择地址" popup-title="请选择城市" collection="opendb-city-china"
+          field="code as value, name as text" orderby="value asc" :step-searh="true" self-field="code"
+          parent-field="parent_code" :clear-icon="false" @change="onCityChange" v-model="form.countyCode">
+        </uni-data-picker>
+        <!-- #endif -->
       </uni-forms-item>
       <uni-forms-item class="form-item" name="address">
         <text class="label">详细地址</text>
@@ -137,6 +155,13 @@ onLoad(() => {
 </template>
 
 <style lang="scss">
+/* #ifdef APP-PLUS || H5 */
+:deep(.selected-area) {
+  height: auto;
+  flex: 0 1 auto;
+}
+
+/* #endif */
 page {
   background-color: #f4f4f4;
 }
