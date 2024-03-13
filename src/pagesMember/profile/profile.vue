@@ -21,13 +21,30 @@ onLoad(() => {
 
 const memberStore = useMemberStore()
 const onAvatarChange = () => {
-  uni.chooseMedia({
+// #ifdef MP-WEIXIN
+uni.chooseMedia({
     count: 1,
     mediaType: ["image"],
     success: (res) => {
       // console.log('图片', res)
       const { tempFilePath } = res.tempFiles[0]
-      uni.uploadFile({
+      uploadFile(tempFilePath)
+    },
+  })
+// #endif
+// #ifdef APP-PLUS || H5
+  uni.chooseImage({
+    count:1,
+    success:(success)=>{
+      // console.log(success)
+      const tempFilePath=success.tempFilePaths[0]
+      uploadFile(tempFilePath)
+    },
+  })
+// #endif
+//上传文件
+const uploadFile=(tempFilePath:string)=>{
+  uni.uploadFile({
         url: '/member/profile/avatar',
         name: 'file',
         filePath: tempFilePath,
@@ -52,9 +69,9 @@ const onAvatarChange = () => {
           }
         },
       })
-    },
-  })
 }
+}
+
 
 const onSubmit = async () => {
   const { nickname, gender, birthday } = memberProfile.value

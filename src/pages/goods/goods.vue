@@ -222,6 +222,11 @@ const onBuyNow = (ev: SkuPopupEvent) => {
 </template>
 
 <style lang="scss">
+/* #ifdef H5 ||APP-PLUS*/
+.toolbar .icons .navigator-wrap{
+  flex:1;
+}
+/* #endif */
 page {
   height: 100%;
   overflow: hidden;

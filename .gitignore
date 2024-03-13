@@ -1,1 +1,5 @@
 dist
+.hbuilderx
+uniCloud-aliyun
+src/uni_modules
+node_modules
